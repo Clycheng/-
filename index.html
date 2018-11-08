@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            /* border: 5px solid red; */
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <canvas id = "box" width="1000px" height="800px">
+
+    </canvas>
+
+    <script>
+        // 棋盘构造
+            function Birth(obj){
+                this.name = obj.name;
+                this.interval = obj.interval;
+                this.color = obj.color;
+                this.XAxis = obj.XAxis;
+                this.YAxis = obj.YAxis;
+                
+                let canvasBox = document.getElementById(this.name);
+                let ctx = canvasBox.getContext("2d");
+                ctx.strokeStyle = this.color;
+                this.width = canvasBox.width;
+                this.height = canvasBox.height;
+                this.length = Math.round((canvasBox.width-this.XAxis*2)/this.interval);
+                this.XArr= [this.XAxis];
+                this.YArr = [this.YAxis];
+                for(let z = 0; z<this.length; z++){
+                    this.XAxis+=this.interval;
+                    this.YAxis+=this.interval;
+                    // if(this.XAxis>canvasBox.width){
+                    //     break;
+                    // }
+                    // if(this.YAxis>canvasBox.height){
+                    //     break;
+                    // }
+                    this.XArr.push(this.XAxis);
+                    this.YArr.push(this.YAxis);
+                }
+                console.log(this.YArr);
+                console.log(this.YArr);
+                for (let index = 0; index < this.length+1; index++) {
+                    for(let i = 0; i < this.length; i ++) {
+                        ctx.moveTo(this.XArr[index],this.YArr[i]);
+                        ctx.lineTo(this.XArr[index],this.YArr[i+1]);
+                        ctx.stroke();
+                        ctx.moveTo(this.XArr[i],this.YArr[index]);
+                        ctx.lineTo(this.XArr[i+1],this.YArr[index]);
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            var obj = {
+                name :"box",
+                interval:100,
+                color:"#bf0000",
+                XAxis:0,
+                YAxis:0
+            }
+           var abc= new Birth(obj);
+           var width = abc.width;
+           var height = abc.height;
+           var XArr = abc.XArr;
+           var YArr = abc.YArr;
+           var length = abc.length;
+        // 棋子出生
+        window.onmousemove=function(e){
+            // console.log();
+           
+            var  wcha = (document.documentElement.clientWidth-width)/2;
+            var  hcha = (document.documentElement.clientHeight-height)/2;
+            console.log(e.clientX-wcha,e.clientY-hcha);
+           
+            window.onclick=function(){
+                console.log(length,wcha)
+                for(let i = 0; i <length; i++){
+                    for(let z = 0; z <length; z++){
+                        if(XArr[i]+z == wcha||XArr[i]-z==wcha){
+                            console.log(1);
+                        }
+                    }
+                }
+                // if (XArr.indexOf(wcha))
+                //         {  
+                //             console.log(XArr.indexOf(wcha))
+                //          }                
+            }
+           
+        }
+    </script>
+</body>
+</html>
